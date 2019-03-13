@@ -16,8 +16,6 @@
 #include "GLSL.h"
 #include "Program.h"
 
-#include <unistd.h>
-
 using namespace std;
 
 Mode ShapeSkin::mode = Mode::None;
