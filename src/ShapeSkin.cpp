@@ -294,8 +294,26 @@ void ShapeSkin::draw() const{
 		// Uniforms
 		// TODO Fill matrix uniforms
 		glUniform1i(prog->getUniform("selBone"), selBone);
-
-		// TODO Write weights to vec4 arrays using stride argument of glVertexAttribPointer
+      
+      unsigned int h_w0, h_w1, h_w2, h_w3, h_w4;
+      h_w0 = prog->getAttribute("w0");
+      h_w1 = prog->getAttribute("w1");
+      h_w2 = prog->getAttribute("w2");
+      h_w3 = prog->getAttribute("w3");
+      h_w4 = prog->getAttribute("w4");
+      glEnableVertexAttribArray(h_w0);
+      glEnableVertexAttribArray(h_w1);
+      glEnableVertexAttribArray(h_w2);
+      glEnableVertexAttribArray(h_w3);
+      glEnableVertexAttribArray(h_w4);
+      glBindBuffer(GL_ARRAY_BUFFER, wBufID);
+      glBufferData(GL_ARRAY_BUFFER, wBuf.size()*sizeof(float), wBuf.data(), GL_STATIC_DRAW);
+      unsigned stride = 20*sizeof(float);
+      glVertexAttribPointer(h_w0, 4, GL_FLOAT, GL_FALSE, stride, (const void *)( 0*sizeof(float)));
+      glVertexAttribPointer(h_w1, 4, GL_FLOAT, GL_FALSE, stride, (const void *)( 4*sizeof(float)));
+      glVertexAttribPointer(h_w2, 4, GL_FLOAT, GL_FALSE, stride, (const void *)( 8*sizeof(float)));
+      glVertexAttribPointer(h_w3, 4, GL_FLOAT, GL_FALSE, stride, (const void *)(12*sizeof(float)));
+      glVertexAttribPointer(h_w4, 4, GL_FLOAT, GL_FALSE, stride, (const void *)(16*sizeof(float)));
 
 	} else{
 		// Color for weight when a bone is selected, otherwise just normal vectors.

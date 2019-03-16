@@ -2,7 +2,11 @@
 
 attribute vec3 aPos;
 attribute vec3 aNor;
-// TODO Add bone weight attributes.
+in vec4 w0;
+in vec4 w1;
+in vec4 w2;
+in vec4 w3;
+in vec4 w4;
 
 // TODO Add matrix uniforms
 uniform int selBone;
@@ -10,7 +14,7 @@ uniform int selBone;
 uniform mat4 P;
 uniform mat4 MV;
 
-out vec3 vColor;
+varying vec3 vColor;
 
 const vec3 lightPos = vec3(1.0, 1.0, 1.0);
 const vec3 specColor = vec3(1.0, 1.0, 1.0);

@@ -1,9 +1,7 @@
 #version 120
 
-attribute vec3 vColor;
-
-out vec4 fragColor;
+varying vec3 vColor;
 
 void main() {
-	fragColor = vec4(vColor, 1.0);
+	gl_FragColor = vec4(vColor, 1.0);
 }

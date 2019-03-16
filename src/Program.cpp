@@ -82,8 +82,10 @@ void Program::unbind() {
 	glUseProgram(0);
 }
 
-void Program::addAttribute(const string &name) {
+bool Program::addAttribute(const string &name) {
 	attributes[name] = glGetAttribLocation(pid, name.c_str());
+   if(attributes[name]==-1) return false;
+   return true;
 }
 
 void Program::addUniform(const string &name) {

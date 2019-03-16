@@ -104,9 +104,11 @@ static void char_callback(GLFWwindow *window, unsigned int key){
 		log_reg("Starting playback.");
 		break;
 	case 'g':
-		// shape->toggleGPU();
-		// progSkinCurrent = shape->useGPU()? progSkinGPU: progSkinCPU;
-		log_err("GPU skinning not yet implemented.");
+		shape->toggleGPU();
+		progSkinCurrent = shape->useGPU()? progSkinGPU: progSkinCPU;
+		log_err("GPU skinning not yet implemented.\n"
+              "If attributes are not used in vertex shader, the program may crash.\n"
+              "-----------------------------\n");
 		break;
 	case '+':
 		shape->increment(1);
@@ -172,15 +174,20 @@ void loadScene(const string &meshFile, const string &attachmentFile, const strin
 	
 	// For skinned shape, CPU/GPU
 	// TODO Write GPU skinning shader and associated code and then uncomment these.
-	// progSkinGPU = make_shared<Program>();
-	// progSkinGPU->setShaderNames(RESOURCE_DIR + "skin_lin_vert.glsl",
-	//                            RESOURCE_DIR + "skin_lin_frag.glsl");
+	progSkinGPU = make_shared<Program>();
+	progSkinGPU->setShaderNames(RESOURCE_DIR + "skin_lin_vert.glsl",
+	                           RESOURCE_DIR + "skin_lin_frag.glsl");
 
 	progSkinCPU = make_shared<Program>();
 
 	progSkinCPU->setShaderNames(RESOURCE_DIR + "skin_vert.glsl",
 										RESOURCE_DIR + "skin_frag.glsl");
 	progSkinCurrent = shape->useGPU()?progSkinGPU:progSkinCPU;
+}
+
+void addAndCheckAttr(shared_ptr<Program> prog, string sAttr){
+	if(!progSkinGPU->addAttribute(sAttr)) 
+      log_err("Could not add attribute %s. Attribute may be unused in shader.", sAttr.c_str());
 }
 
 void init() {
@@ -200,13 +207,17 @@ void init() {
 	progSimple->addUniform("P");
 	progSimple->addUniform("MV");
 
-	// TODO Add other required uniforms and attributes for GPU skinning. 
-	// progSkinGPU->init();
-	// progSkinGPU->addUniform("selBone");
-	// progSkinGPU->addAttribute("aPos");
-	// progSkinGPU->addAttribute("aNor");
-	// progSkinGPU->addUniform("P");
-	// progSkinGPU->addUniform("MV");
+	progSkinGPU->init();
+	progSkinGPU->addUniform("selBone");
+	progSkinGPU->addAttribute("aPos");
+	progSkinGPU->addAttribute("aNor");
+   addAndCheckAttr(progSkinGPU, "w0");
+   addAndCheckAttr(progSkinGPU, "w1");
+   addAndCheckAttr(progSkinGPU, "w2");
+   addAndCheckAttr(progSkinGPU, "w3");
+   addAndCheckAttr(progSkinGPU, "w4");
+	progSkinGPU->addUniform("P");
+	progSkinGPU->addUniform("MV");
 
 	progSkinCPU->init();
 	progSkinCPU->addAttribute("aCol");
