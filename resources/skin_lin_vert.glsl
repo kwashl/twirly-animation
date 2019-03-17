@@ -2,11 +2,11 @@
 
 attribute vec3 aPos;
 attribute vec3 aNor;
-in vec4 w0;
-in vec4 w1;
-in vec4 w2;
-in vec4 w3;
-in vec4 w4;
+attribute vec4 w0;
+attribute vec4 w1;
+attribute vec4 w2;
+attribute vec4 w3;
+attribute vec4 w4;
 
 // TODO Add matrix uniforms
 uniform int selBone;
