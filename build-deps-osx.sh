@@ -1,6 +1,6 @@
 #!/bin/bash
-curl 
-curl https://www.ugrad.cs.ubc.ca/~cs426/Vjan2019/A4/deps-osx.tgz > deps-osx.tgz
+# curl 
+curl https://www.students.cs.ubc.ca/~cs-426/Vjan2019h/A4/deps-osx.tgz > deps-osx.tgz
 tar -zxvf deps-osx.tgz
 mv deps-osx deps
 

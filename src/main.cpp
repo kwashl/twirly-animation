@@ -40,7 +40,7 @@ shared_ptr<Program>   progSkinCPU     = nullptr;
 // Playback related variables
 bool bPlayback = false;
 float pbTime = 0;
-const float dt = 0.01;
+const float dt = 0.03;
 
 static void error_callback(int error, const char *description) {
 	cerr << description << endl;
@@ -106,9 +106,9 @@ static void char_callback(GLFWwindow *window, unsigned int key){
 	case 'g':
 		shape->toggleGPU();
 		progSkinCurrent = shape->useGPU()? progSkinGPU: progSkinCPU;
-		log_err("GPU skinning not yet implemented.\n"
-              "If attributes are not used in vertex shader, the program may crash.\n"
-              "-----------------------------\n");
+		//		log_err("GPU skinning not yet implemented.\n"
+		//              "If attributes are not used in vertex shader, the program may crash.\n"
+		//              "-----------------------------\n");
 		break;
 	case '+':
 		shape->increment(1);
@@ -218,6 +218,8 @@ void init() {
    addAndCheckAttr(progSkinGPU, "w4");
 	progSkinGPU->addUniform("P");
 	progSkinGPU->addUniform("MV");
+
+	progSkinGPU->addUniform("M");     // add this
 
 	progSkinCPU->init();
 	progSkinCPU->addAttribute("aCol");
